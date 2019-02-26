@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %} | Login{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-8 col-lg-6 m-auto">
+        <div class="card">
+            <div class="card-header bg-dark text-light">
+                User Login
+            </div>
+            <div class="card-body">
+                <form method="post" id="login_form" onsubmit="loginValidation(event)"
+                      data-url-validator="{% url 'login' %}"  data-url-success="{% url 'login_success' %}">{% csrf_token %}
+                    <div class="alert alert-danger" id="error" style="display: none"></div>
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-dark">Login</button>
+                    <a href="{% url 'password_reset' %}">Forget Password?</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

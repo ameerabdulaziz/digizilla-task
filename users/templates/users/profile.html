@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-dark text-light">
+                User Profile
+            </div>
+            <div class="card-body">
+                <h3>{{ user.get_full_name }}</h3>
+                <h3>{{ user.username }}</h3>
+                <h3>{{ user.email }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3">
+        <a href="{% url 'home' %}"><< Back To Home Page</a>
+    </div>
+{% endblock %}
