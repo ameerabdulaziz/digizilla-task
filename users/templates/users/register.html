@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %} | Register{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-10 col-lg-8 m-auto">
+        <div class="card mb-5">
+            <div class="card-header bg-dark text-light">
+                User Register
+            </div>
+            <div class="card-body">
+                <form method="post" id="login_form">{% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">{{ form.first_name|as_crispy_field  }}</div>
+                        <div class="col-md-6">{{ form.last_name|as_crispy_field  }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">{{ form.username|as_crispy_field  }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">{{ form.email|as_crispy_field  }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">{{ form.password1|as_crispy_field  }}</div>
+                        <div class="col-md-6">{{ form.password2|as_crispy_field  }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-lg btn-dark">Register</button>
+                            <a href="{% url 'login' %}">already have an account?</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
