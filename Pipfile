@@ -9,6 +9,7 @@ verify_ssl = true
 django = "*"
 mysqlclient = "*"
 django-crispy-forms = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.7"

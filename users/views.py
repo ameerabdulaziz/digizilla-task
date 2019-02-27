@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (
     LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
@@ -51,7 +50,7 @@ class Register(CreateView):
         return super().form_valid(form)
 
     def get_template_names(self):
-        if 'user_logged_in' in self.request.session:
+        if 'user_logged_in' in self.request.session or self.request.user.is_authenticated:
             raise PermissionDenied
         else:
             return 'users/register.html'
@@ -71,7 +70,7 @@ class PasswordReset(PasswordResetView):
     email_template_name = 'users/password_reset_email.html'
 
     def get_template_names(self):
-        if 'user_logged_in' in self.request.session:
+        if 'user_logged_in' in self.request.session or self.request.user.is_authenticated:
             raise PermissionDenied
         else:
             self.template_name = 'users/password_reset.html'
@@ -81,7 +80,7 @@ class PasswordReset(PasswordResetView):
 class PasswordResetDone(PasswordResetDoneView):
 
     def get_template_names(self):
-        if 'user_logged_in' in self.request.session:
+        if 'user_logged_in' in self.request.session or self.request.user.is_authenticated:
             raise PermissionDenied
         else:
             self.template_name = 'users/password_reset_done.html'
@@ -90,7 +89,7 @@ class PasswordResetDone(PasswordResetDoneView):
 
 class PasswordResetConfirm(PasswordResetConfirmView):
     def get_template_names(self):
-        if 'user_logged_in' in self.request.session:
+        if 'user_logged_in' in self.request.session or self.request.user.is_authenticated:
             raise PermissionDenied
         else:
             self.template_name = 'users/password_reset_confirm.html'
@@ -99,7 +98,7 @@ class PasswordResetConfirm(PasswordResetConfirmView):
 
 class PasswordResetComplete(PasswordResetCompleteView):
     def get_template_names(self):
-        if 'user_logged_in' in self.request.session:
+        if 'user_logged_in' in self.request.session or self.request.user.is_authenticated:
             raise PermissionDenied
         else:
             self.template_name = 'users/password_reset_complete.html'
