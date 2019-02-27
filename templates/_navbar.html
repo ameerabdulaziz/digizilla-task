@@ -12,7 +12,7 @@
                     <a class="nav-link" href="{% url 'home' %}">Home</a>
                 </li>
             </ul>
-            {% if request.session.user_logged_in or user.is_authenticated %}
+            {% if user.is_authenticated %}
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'profile' %}">{{ user }}</a>

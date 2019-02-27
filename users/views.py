@@ -5,6 +5,7 @@ from django.contrib.auth.views import (
     )
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView
 
@@ -36,24 +37,21 @@ class Login(LoginView):
         return super().form_invalid(form)
 
 
-class Register(CreateView):
-    form_class = UserRegisterForm
-    success_url = reverse_lazy('home')
-
-    def form_valid(self, form):
-        form.save()
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password1')
-        user = authenticate(username=username, password=password)
-        login(self.request, user)
-        self.request.session['user_logged_in'] = username
-        return super().form_valid(form)
-
-    def get_template_names(self):
-        if 'user_logged_in' in self.request.session or self.request.user.is_authenticated:
-            raise PermissionDenied
-        else:
-            return 'users/register.html'
+def register(request):
+    if 'user_logged_in' in request.session or request.user.is_authenticated:
+        return redirect('home')
+    elif request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            user = authenticate(username=username, password=form.cleaned_data.get('password1'))
+            login(request, user)
+            request.session['user_logged_in'] = username
+            return redirect('home')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'users/register.html', {'form': form})
 
 
 class LoginSuccess(LoginRequiredMixin, TemplateView):
